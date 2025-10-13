@@ -1,0 +1,24 @@
+services:
+  student-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: student-service
+    env_file:
+      - .env
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/distri_school
+      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
+      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+      SERVER_PORT: ${SERVER_PORT:-8081}
+      MAIL_USERNAME: ${MAIL_USERNAME}
+      MAIL_PASSWORD: ${MAIL_PASSWORD}
+    ports:
+      - "${SERVER_PORT:-8082}:8082"
+    networks:
+      - school-network
+
+networks:
+  school-network:
+    external: true
