@@ -16,7 +16,7 @@ public class SecurityConfig {
             // Disable CSRF for stateless APIs. Remove if you are using sessions/forms.
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(auth -> auth
-                .requestMatchers("/api/students/**").permitAll()
+                .requestMatchers("/students/**").permitAll()
                 .anyRequest().authenticated()
             );
         return http.build();
