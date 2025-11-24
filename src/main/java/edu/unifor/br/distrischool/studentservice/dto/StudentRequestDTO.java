@@ -1,6 +1,5 @@
 package edu.unifor.br.distrischool.studentservice.dto;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,7 +23,7 @@ public class StudentRequestDTO {
     private String email;
 
     @Size(min = 6, message = "Senha deve ter no mínimo 6 caracteres")
-    private String password; // Opcional, se não fornecido gera senha temporária
+    private String password;
 
     @NotNull(message = "Data de nascimento é obrigatória")
     @Past(message = "Data de nascimento deve ser no passado")
@@ -33,12 +32,4 @@ public class StudentRequestDTO {
     @NotBlank(message = "CPF é obrigatório")
     @Pattern(regexp = "\\d{11}", message = "CPF deve conter 11 dígitos")
     private String cpf;
-
-    @Pattern(regexp = "\\d{0,20}", message = "RG deve conter apenas números")
-    private String rg;
-
-    @Size(max = 50, message = "Órgão emissor deve ter no máximo 50 caracteres")
-    private String rgIssuer;
-
-    private LocalDate rgIssueDate;
 }

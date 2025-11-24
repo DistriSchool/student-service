@@ -20,18 +20,14 @@ public class StudentResponseDTO {
     private Long userId;
     private String registrationNumber;
     private String fullName;
+    private String email;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDate dateOfBirth;
 
-    private Integer age; // Calculado
+    private Integer age;
 
     private String cpf;
-    private String rg;
-    private String rgIssuer;
-
-    @JsonFormat(pattern = "yyyy-MM-dd")
-    private LocalDate rgIssueDate;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createdAt;
@@ -39,24 +35,18 @@ public class StudentResponseDTO {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime updatedAt;
 
-    private Long createdBy;
-    private Long updatedBy;
-
     public static StudentResponseDTO from(Student student) {
         return StudentResponseDTO.builder()
                 .id(student.getId())
+                .userId(student.getUserId())
                 .registrationNumber(student.getRegistrationNumber())
                 .fullName(student.getFullName())
+                .email(student.getEmail())
                 .dateOfBirth(student.getDateOfBirth())
                 .age(calculateAge(student.getDateOfBirth()))
                 .cpf(maskCpf(student.getCpf()))
-                .rg(student.getRg())
-                .rgIssuer(student.getRgIssuer())
-                .rgIssueDate(student.getRgIssueDate())
                 .createdAt(student.getCreatedAt())
                 .updatedAt(student.getUpdatedAt())
-                .createdBy(student.getCreatedBy())
-                .updatedBy(student.getUpdatedBy())
                 .build();
     }
 

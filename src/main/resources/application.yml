@@ -18,12 +18,13 @@ spring:
         format_sql: true
 
   flyway:
-    enabled: false
+    enabled: true
     baseline-on-migrate: true
     locations: classpath:db/migration
+    table: student_schema_history
 
   kafka:
-    bootstrap-servers: localhost:9092
+    bootstrap-servers: kafka:9092
     producer:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
@@ -31,21 +32,25 @@ spring:
         spring.json.add.type.headers: false
 
   mail:
-    host: smtp.gmail.com
-    port: 587
-    username: ${MAIL_USERNAME:dummy@email.com}
-    password: ${MAIL_PASSWORD:dummy}
+    enabled: ${MAIL_ENABLED:true}
+    host: ${MAIL_HOST:mailhog}
+    port: ${MAIL_PORT:1025}
+    username: ${MAIL_USERNAME:}
+    password: ${MAIL_PASSWORD:}
     properties:
       mail:
         smtp:
-          auth: true
+          auth: ${MAIL_SMTP_AUTH:false}
           starttls:
-            enable: true
+            enable: ${MAIL_SMTP_STARTTLS_ENABLE:false}
+            required: ${MAIL_SMTP_STARTTLS_REQUIRED:false}
+          ssl:
+            enable: ${MAIL_SMTP_SSL_ENABLE:false}
+        debug: ${MAIL_DEBUG:false}
 
 server:
   port: 8082
 
 logging:
   level:
-    com.school.auth: DEBUG
     org.springframework.security: DEBUG

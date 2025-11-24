@@ -25,7 +25,7 @@ public class StudentController {
 
     @PostMapping
     public ResponseEntity<StudentResponseDTO> createStudent(
-            @RequestBody StudentRequestDTO request) {
+            @Valid @RequestBody StudentRequestDTO request) {
 
         log.info("POST /api/students - Criando estudante: {}", request.getEmail());
 

@@ -13,8 +13,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.util.List;
-import java.util.stream.Collectors;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -22,42 +23,43 @@ import java.util.stream.Collectors;
 public class StudentService {
 
     private final StudentRepository studentRepository;
-    //private final KafkaEventService kafkaEventService;
     private final EmailService emailService;
+    private final StudentKafkaEventService kafkaEventService;
 
     @Transactional
     public StudentResponseDTO createStudent(StudentRequestDTO request, Long createdBy) {
         log.info("Tentativa de criar estudante: {}", request.getEmail());
 
-        // Validar duplicatas
         validateDuplicates(request);
 
-        // Criar estudante primeiro (sem user_id)
         Student student = Student.builder()
                 .registrationNumber(generateRegistrationNumber())
                 .fullName(request.getFullName())
                 .dateOfBirth(request.getDateOfBirth())
                 .cpf(request.getCpf())
-                .rg(request.getRg())
-                .rgIssuer(request.getRgIssuer())
-                .rgIssueDate(request.getRgIssueDate())
+                .email(request.getEmail())
                 .build();
 
         student = studentRepository.save(student);
         log.info("Estudante criado com ID temporário: {}", student.getId());
 
         try {
-            // Criar usuário no Auth-Service
+            String tempPassword = request.getPassword();
+            if (tempPassword == null || tempPassword.isBlank()) {
+                tempPassword = UUID.randomUUID().toString().replaceAll("[^A-Za-z0-9]", "").substring(0, 10);
+            }
 
+            UserEvent userEvent = UserEvent.builder()
+                    .eventType("user.create")
+                    .userId(student.getId())
+                    .email(request.getEmail())
+                    .name(request.getFullName())
+                    .role("STUDENT")
+                    .password(tempPassword)
+                    .timestamp(LocalDateTime.now().format(DateTimeFormatter.ISO_DATE_TIME))
+                    .build();
 
-            // Atualizar student com user_id
-            student = studentRepository.save(student);
-
-            // Publicar evento
-            //kafkaEventService.publishStudentEvent("student.created", student);
-
-            // Enviar email de boas-vindas
-            emailService.sendWelcomeEmail(request.getEmail(), student.getRegistrationNumber());
+            kafkaEventService.publishUserCreateEvent(userEvent);
 
             log.info("Estudante criado com sucesso: {} - Matrícula: {}",
                     student.getFullName(), student.getRegistrationNumber());
@@ -66,7 +68,6 @@ public class StudentService {
 
         } catch (Exception e) {
             log.error("Erro ao criar usuário no Auth-Service. Revertendo criação do estudante.", e);
-            // Compensação: deletar student se falhar
             studentRepository.delete(student);
             throw new StudentCreationException("Erro ao criar estudante: " + e.getMessage());
         }
@@ -119,41 +120,21 @@ public class StudentService {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new StudentNotFoundException("Estudante não encontrado com ID: " + id));
 
-        // Validar mudanças de CPF/RG se fornecidos
         if (request.getCpf() != null && !request.getCpf().equals(student.getCpf())) {
             if (studentRepository.existsByCpf(request.getCpf())) {
                 throw new DuplicateStudentException("CPF já cadastrado: " + request.getCpf());
             }
         }
 
-        // Atualizar campos
         updateStudentFields(student, request);
-        student.setUpdatedBy(updatedBy);
 
         student = studentRepository.save(student);
-
-        // Publicar evento
-        //kafkaEventService.publishStudentEvent("student.updated", student);
 
         log.info("Estudante atualizado com sucesso: {}", student.getId());
 
         return StudentResponseDTO.from(student);
     }
 
-    @Transactional
-    public StudentResponseDTO updateStudentStatus(Long id, StudentStatus newStatus, Long updatedBy) {
-        log.info("Atualizando status do estudante ID: {} para {}", id, newStatus);
-
-        Student student = studentRepository.findById(id)
-                .orElseThrow(() -> new StudentNotFoundException("Estudante não encontrado com ID: " + id));
-
-        student = studentRepository.save(student);
-
-        // Publicar evento
-        // kafkaEventService.publishStudentStatusChangedEvent(student, oldStatus, newStatus);
-
-        return StudentResponseDTO.from(student);
-    }
 
     @Transactional
     public void deleteStudent(Long id, Long deletedBy) {
@@ -162,37 +143,24 @@ public class StudentService {
         Student student = studentRepository.findById(id)
                 .orElseThrow(() -> new StudentNotFoundException("Estudante não encontrado com ID: " + id));
 
-        // Soft delete: apenas marcar como INACTIVE
         studentRepository.delete(student);
 
-        // Publicar evento
-        // kafkaEventService.publishStudentEvent("student.deleted", student);
 
         log.info("Estudante deletado (soft delete): {}", id);
     }
-
-    // ========== MÉTODOS AUXILIARES ==========
 
     private void validateDuplicates(StudentRequestDTO request) {
         if (studentRepository.existsByCpf(request.getCpf())) {
             throw new DuplicateStudentException("CPF já cadastrado: " + request.getCpf());
         }
-
-        if (request.getRg() != null && studentRepository.existsByRg(request.getRg())) {
-            throw new DuplicateStudentException("RG já cadastrado: " + request.getRg());
-        }
     }
 
     private String generateRegistrationNumber() {
-        // Formato: 2025001234 (ano + sequencial)
         int year = LocalDate.now().getYear();
         long count = studentRepository.count() + 1;
         return String.format("%d%06d", year, count);
     }
 
-    private String generateTempPassword() {
-        return java.util.UUID.randomUUID().toString().substring(0, 8);
-    }
 
     private void updateStudentFields(Student student, StudentUpdateDTO request) {
         if (request.getFullName() != null) {
@@ -203,15 +171,6 @@ public class StudentService {
         }
         if (request.getCpf() != null) {
             student.setCpf(request.getCpf());
-        }
-        if (request.getRg() != null) {
-            student.setRg(request.getRg());
-        }
-        if (request.getRgIssuer() != null) {
-            student.setRgIssuer(request.getRgIssuer());
-        }
-        if (request.getRgIssueDate() != null) {
-            student.setRgIssueDate(request.getRgIssueDate());
         }
     }
 }

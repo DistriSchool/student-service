@@ -14,5 +14,8 @@ public class UserEvent {
     private Long userId;
     private String email;
     private String name;
+    private String role; // e.g. "STUDENT"
+    private String password; // plaintext temporary password to be created by auth-service
     private String timestamp;
+
 }

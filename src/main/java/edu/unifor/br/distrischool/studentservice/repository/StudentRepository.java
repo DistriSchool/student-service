@@ -10,18 +10,10 @@ import java.util.Optional;
 @Repository
 public interface StudentRepository extends JpaRepository<Student, Long> {
 
-    // ========== BUSCA POR IDENTIFICADORES ÚNICOS ==========
-
     Optional<Student> findByRegistrationNumber(String registrationNumber);
 
     Optional<Student> findByCpf(String cpf);
 
-    // ========== VERIFICAÇÃO DE EXISTÊNCIA ==========
-
-
     boolean existsByCpf(String cpf);
-
-    boolean existsByRg(String rg);
-
 
 }

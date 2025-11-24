@@ -24,7 +24,7 @@ public class Student {
     private Long id;
 
     @Column(name = "registration_number", nullable = false, unique = true, length = 20)
-    private String registrationNumber; // Matrícula
+    private String registrationNumber;
 
     @Column(name = "full_name", nullable = false, length = 150)
     private String fullName;
@@ -35,26 +35,17 @@ public class Student {
     @Column(nullable = false, unique = true, length = 11)
     private String cpf;
 
-    @Column(length = 20)
-    private String rg;
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
 
-    @Column(name = "rg_issuer", length = 50)
-    private String rgIssuer; // Órgão emissor
-
-    @Column(name = "rg_issue_date")
-    private LocalDate rgIssueDate;
+    @Column(name = "user_id")
+    private Long userId;
 
     @Column(name = "created_at", nullable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
-
-    @Column(name = "created_by")
-    private Long createdBy; // ID do usuário que criou
-
-    @Column(name = "updated_by")
-    private Long updatedBy; // ID do usuário que atualizou
 
     @PrePersist
     protected void onCreate() {
@@ -77,8 +68,3 @@ public class Student {
         DROPPED_OUT   // Desistente
     }
 }
-
-// ============= EMBEDDABLE CLASSES =============
-
-// ============= STUDENT DOCUMENT ENTITY =============
-
