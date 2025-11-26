@@ -1,10 +1,9 @@
-package edu.unifor.br.distrischool.studentservice.service;
+package edu.unifor.br.distrischool.teacherservice.service;
 
-import edu.unifor.br.distrischool.studentservice.dto.*;
-import edu.unifor.br.distrischool.studentservice.entity.Student;
-import edu.unifor.br.distrischool.studentservice.entity.Student.StudentStatus;
-import edu.unifor.br.distrischool.studentservice.repository.StudentRepository;
-import edu.unifor.br.distrischool.studentservice.exception.*;
+import edu.unifor.br.distrischool.teacherservice.dto.*;
+import edu.unifor.br.distrischool.teacherservice.entity.Student;
+import edu.unifor.br.distrischool.teacherservice.repository.StudentRepository;
+import edu.unifor.br.distrischool.teacherservice.exception.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;

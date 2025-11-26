@@ -1,7 +1,7 @@
-package edu.unifor.br.distrischool.studentservice.dto;
+package edu.unifor.br.distrischool.teacherservice.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import edu.unifor.br.distrischool.studentservice.entity.Student;
+import edu.unifor.br.distrischool.teacherservice.entity.Student;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -48,6 +48,21 @@ spring:
             enable: ${MAIL_SMTP_SSL_ENABLE:false}
         debug: ${MAIL_DEBUG:false}
 
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+micrometer:
+  metrics:
+    export:
+      prometheus:
+        enabled: true
+        step: 15s
+
 server:
   port: 8082
 

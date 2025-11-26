@@ -1,9 +1,9 @@
-package edu.unifor.br.distrischool.studentservice.controller;
+package edu.unifor.br.distrischool.teacherservice.controller;
 
-import edu.unifor.br.distrischool.studentservice.dto.StudentRequestDTO;
-import edu.unifor.br.distrischool.studentservice.dto.StudentResponseDTO;
-import edu.unifor.br.distrischool.studentservice.dto.StudentUpdateDTO;
-import edu.unifor.br.distrischool.studentservice.service.StudentService;
+import edu.unifor.br.distrischool.teacherservice.dto.StudentRequestDTO;
+import edu.unifor.br.distrischool.teacherservice.dto.StudentResponseDTO;
+import edu.unifor.br.distrischool.teacherservice.dto.StudentUpdateDTO;
+import edu.unifor.br.distrischool.teacherservice.service.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

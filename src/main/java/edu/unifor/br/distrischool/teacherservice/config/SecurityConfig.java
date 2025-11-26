@@ -1,5 +1,6 @@
-package edu.unifor.br.distrischool.studentservice.config;
+package edu.unifor.br.distrischool.teacherservice.config;
 
+import org.springframework.boot.actuate.autoconfigure.security.servlet.EndpointRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,6 +17,7 @@ public class SecurityConfig {
         http
             .csrf(AbstractHttpConfigurer::disable)
             .authorizeHttpRequests(auth -> auth
+                .requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
                 .requestMatchers("/students/**").permitAll()
                 .anyRequest().authenticated()
             );

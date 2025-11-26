@@ -1,6 +1,6 @@
-package edu.unifor.br.distrischool.studentservice.config;
+package edu.unifor.br.distrischool.teacherservice.config;
 
-import edu.unifor.br.distrischool.studentservice.dto.UserEvent;
+import edu.unifor.br.distrischool.teacherservice.dto.UserEvent;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package edu.unifor.br.distrischool.studentservice;
+package edu.unifor.br.distrischool.teacherservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

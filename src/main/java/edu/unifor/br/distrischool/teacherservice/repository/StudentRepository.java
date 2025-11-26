@@ -1,6 +1,6 @@
-package edu.unifor.br.distrischool.studentservice.repository;
+package edu.unifor.br.distrischool.teacherservice.repository;
 
-import edu.unifor.br.distrischool.studentservice.entity.Student;
+import edu.unifor.br.distrischool.teacherservice.entity.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

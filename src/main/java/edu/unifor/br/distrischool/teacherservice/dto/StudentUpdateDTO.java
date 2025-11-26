@@ -1,6 +1,5 @@
-package edu.unifor.br.distrischool.studentservice.dto;
+package edu.unifor.br.distrischool.teacherservice.dto;
 
-import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

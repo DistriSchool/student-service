@@ -1,4 +1,4 @@
-package edu.unifor.br.distrischool.studentservice.exception;
+package edu.unifor.br.distrischool.teacherservice.exception;
 
 public class DuplicateStudentException extends RuntimeException {
     public DuplicateStudentException(String message) {

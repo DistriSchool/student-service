@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>edu.unifor.br.distrischool</groupId>
-	<artifactId>student-service</artifactId>
+	<artifactId>teacher-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>student-service</name>
-	<description>student-service</description>
+	<name>teacher-service</name>
+	<description>teacher-service</description>
 	<url/>
 	<licenses>
 		<license/>
@@ -56,6 +56,18 @@
         <dependency>
             <groupId>org.springframework.kafka</groupId>
             <artifactId>spring-kafka</artifactId>
+        </dependency>
+
+        <!-- Actuator for monitoring -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <!-- Micrometer Prometheus registry -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
         </dependency>
 
         <!-- Mail -->

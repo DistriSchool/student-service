@@ -1,4 +1,4 @@
-package edu.unifor.br.distrischool.studentservice.entity;
+package edu.unifor.br.distrischool.teacherservice.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -8,8 +8,6 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Table(name = "students")

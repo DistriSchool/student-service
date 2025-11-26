@@ -1,6 +1,6 @@
-package edu.unifor.br.distrischool.studentservice.config;
+package edu.unifor.br.distrischool.teacherservice.config;
 
-import edu.unifor.br.distrischool.studentservice.dto.ErrorResponse;
+import edu.unifor.br.distrischool.teacherservice.dto.ErrorResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

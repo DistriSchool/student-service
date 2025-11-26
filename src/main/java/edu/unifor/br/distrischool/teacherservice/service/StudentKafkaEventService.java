@@ -1,6 +1,6 @@
-package edu.unifor.br.distrischool.studentservice.service;
+package edu.unifor.br.distrischool.teacherservice.service;
 
-import edu.unifor.br.distrischool.studentservice.dto.UserEvent;
+import edu.unifor.br.distrischool.teacherservice.dto.UserEvent;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.kafka.core.KafkaTemplate;
