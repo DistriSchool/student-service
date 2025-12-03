@@ -9,10 +9,10 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>edu.unifor.br.distrischool</groupId>
-	<artifactId>teacher-service</artifactId>
+	<artifactId>course-service</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>teacher-service</name>
-	<description>teacher-service</description>
+	<name>course-service</name>
+	<description>course-service</description>
 	<url/>
 	<licenses>
 		<license/>

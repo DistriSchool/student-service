@@ -27,6 +27,8 @@ public class StudentResponseDTO {
 
     private Integer age;
 
+    private Integer semester;
+
     private String cpf;
 
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
@@ -44,6 +46,7 @@ public class StudentResponseDTO {
                 .email(student.getEmail())
                 .dateOfBirth(student.getDateOfBirth())
                 .age(calculateAge(student.getDateOfBirth()))
+                .semester(student.getSemester())
                 .cpf(maskCpf(student.getCpf()))
                 .createdAt(student.getCreatedAt())
                 .updatedAt(student.getUpdatedAt())
@@ -51,12 +54,14 @@ public class StudentResponseDTO {
     }
 
     private static Integer calculateAge(LocalDate dateOfBirth) {
-        if (dateOfBirth == null) return null;
+        if (dateOfBirth == null)
+            return null;
         return LocalDate.now().getYear() - dateOfBirth.getYear();
     }
 
     private static String maskCpf(String cpf) {
-        if (cpf == null || cpf.length() != 11) return cpf;
+        if (cpf == null || cpf.length() != 11)
+            return cpf;
         return cpf.substring(0, 3) + ".***.***-" + cpf.substring(9);
     }
 }

@@ -32,4 +32,9 @@ public class StudentRequestDTO {
     @NotBlank(message = "CPF é obrigatório")
     @Pattern(regexp = "\\d{11}", message = "CPF deve conter 11 dígitos")
     private String cpf;
+
+    @NotNull(message = "Semestre é obrigatório")
+    @Min(value = 1, message = "Semestre deve ser no mínimo 1")
+    @Max(value = 12, message = "Semestre deve ser no máximo 12")
+    private Integer semester;
 }

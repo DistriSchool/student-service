@@ -45,6 +45,9 @@ public class Student {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    @Column(name = "semester")
+    private Integer semester;
+
     @PrePersist
     protected void onCreate() {
         createdAt = LocalDateTime.now();
@@ -57,12 +60,12 @@ public class Student {
     }
 
     public enum StudentStatus {
-        PENDING,      // Pendente de aprovação/matrícula
-        ACTIVE,       // Ativo/Matriculado
-        INACTIVE,     // Inativo (trancado, suspenso)
-        TRANSFERRED,  // Transferido
-        GRADUATED,    // Formado
-        EXPELLED,     // Expulso
-        DROPPED_OUT   // Desistente
+        PENDING, // Pendente de aprovação/matrícula
+        ACTIVE, // Ativo/Matriculado
+        INACTIVE, // Inativo (trancado, suspenso)
+        TRANSFERRED, // Transferido
+        GRADUATED, // Formado
+        EXPELLED, // Expulso
+        DROPPED_OUT // Desistente
     }
 }

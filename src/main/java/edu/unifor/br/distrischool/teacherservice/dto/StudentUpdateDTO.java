@@ -23,6 +23,10 @@ public class StudentUpdateDTO {
     @Pattern(regexp = "\\d{11}", message = "CPF deve conter 11 dígitos")
     private String cpf;
 
+    @Min(value = 1, message = "Semestre deve ser no mínimo 1")
+    @Max(value = 12, message = "Semestre deve ser no máximo 12")
+    private Integer semester;
+
     @Pattern(regexp = "\\d{0,20}", message = "RG deve conter apenas números")
     private String rg;
 

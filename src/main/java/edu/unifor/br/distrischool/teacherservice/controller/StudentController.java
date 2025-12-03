@@ -44,10 +44,26 @@ public class StudentController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<StudentResponseDTO>> listStudents(
+    public ResponseEntity<?> listStudents(
             @RequestParam(required = false) String query,
-            @PageableDefault(size = 20, sort = "fullName", direction = Sort.Direction.ASC)
-            Pageable pageable) {
+            @RequestParam(required = false) String ids,
+            @PageableDefault(size = 20, sort = "fullName", direction = Sort.Direction.ASC) Pageable pageable) {
+
+        // If `ids` query param is provided (comma-separated list), return those
+        // students
+        if (ids != null && !ids.isBlank()) {
+            log.info("GET /api/students - list by ids: {}", ids);
+            String[] parts = ids.split(",");
+            java.util.List<Long> idList = new java.util.ArrayList<>();
+            for (String p : parts) {
+                try {
+                    idList.add(Long.parseLong(p.trim()));
+                } catch (NumberFormatException ignored) {
+                }
+            }
+            java.util.List<StudentResponseDTO> students = studentService.getStudentsByIds(idList);
+            return ResponseEntity.ok(students);
+        }
 
         log.info("GET /api/students - Listando todos os estudantes - Página: {}",
                 pageable.getPageNumber());

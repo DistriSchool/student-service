@@ -37,6 +37,7 @@ public class StudentService {
                 .dateOfBirth(request.getDateOfBirth())
                 .cpf(request.getCpf())
                 .email(request.getEmail())
+                .semester(request.getSemester())
                 .build();
 
         student = studentRepository.save(student);
@@ -82,7 +83,6 @@ public class StudentService {
         return StudentResponseDTO.from(student);
     }
 
-
     @Transactional(readOnly = true)
     public StudentResponseDTO getStudentByRegistrationNumber(String registrationNumber) {
         log.info("Buscando estudante por matrícula: {}", registrationNumber);
@@ -112,6 +112,21 @@ public class StudentService {
                 .map(StudentResponseDTO::from);
     }
 
+    @Transactional(readOnly = true)
+    public java.util.List<StudentResponseDTO> getStudentsByIds(java.util.List<Long> ids) {
+        log.info("Buscando estudantes por IDs: {}", ids);
+        if (ids == null || ids.isEmpty()) {
+            return java.util.Collections.emptyList();
+        }
+
+        java.util.List<Student> students = studentRepository.findAllById(ids);
+        java.util.List<StudentResponseDTO> dtos = new java.util.ArrayList<>();
+        for (Student s : students) {
+            dtos.add(StudentResponseDTO.from(s));
+        }
+        return dtos;
+    }
+
     @Transactional
     public StudentResponseDTO updateStudent(Long id, StudentUpdateDTO request, Long updatedBy) {
         log.info("Atualizando estudante ID: {}", id);
@@ -134,7 +149,6 @@ public class StudentService {
         return StudentResponseDTO.from(student);
     }
 
-
     @Transactional
     public void deleteStudent(Long id, Long deletedBy) {
         log.info("Deletando estudante ID: {}", id);
@@ -143,7 +157,6 @@ public class StudentService {
                 .orElseThrow(() -> new StudentNotFoundException("Estudante não encontrado com ID: " + id));
 
         studentRepository.delete(student);
-
 
         log.info("Estudante deletado (soft delete): {}", id);
     }
@@ -160,7 +173,6 @@ public class StudentService {
         return String.format("%d%06d", year, count);
     }
 
-
     private void updateStudentFields(Student student, StudentUpdateDTO request) {
         if (request.getFullName() != null) {
             student.setFullName(request.getFullName());
@@ -170,6 +182,9 @@ public class StudentService {
         }
         if (request.getCpf() != null) {
             student.setCpf(request.getCpf());
+        }
+        if (request.getSemester() != null) {
+            student.setSemester(request.getSemester());
         }
     }
 }
